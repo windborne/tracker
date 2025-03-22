@@ -1,0 +1,4 @@
+body { font-family: Arial, sans-serif; padding: 20px; }
+.task { display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0; }
+.hidden { display: none; }
+.quantityInput { display: flex; align-items: center; gap: 10px; }

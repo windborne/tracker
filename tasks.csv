@@ -1,0 +1,81 @@
+Task,Start Time,Elapsed Time (seconds),End Time,Quantity
+Main - Built up (before initial test) (MI 1.1),10:39:12 AM,1,10:39:13 AM,2
+Main - Initial test (MI 1.2, 1.3),10:39:21 AM,2,10:39:23 AM,4
+Main - Sat-Com (MI 2.1, 2.2),10:39:29 AM,1,10:39:31 AM,5
+Main - Sat-Com (MI 2.1, 2.2),10:43:11 AM,7,10:43:19 AM,3
+Sensor - Long Therm Soldering to the board,10:43:17 AM,8,10:43:26 AM,56
+Main - Built up (before initial test) (MI 1.1),10:59:20 AM,1,10:59:22 AM,4
+Main - Built up (before initial test) (MI 1.1),10:59:25 AM,5,10:59:31 AM,4
+Main - Sat-Com (MI 2.1, 2.2),10:59:27 AM,6,10:59:33 AM,6
+Main - Mylar install + Solar (MI 3.3, 3.4),10:59:29 AM,6,10:59:36 AM,2
+Main - Built up (before initial test) (MI 1.1),11:37:58 AM,2,11:38:00 AM,6000
+Apex - Press (PCB) (MI 2.1, 2.2, 2.3),11:40:50 AM,3,11:40:54 AM,3
+Main - Built up (before initial test) (MI 1.1),11:43:21 AM,8,11:43:30 AM,5
+Main - Initial test (MI 1.2, 1.3),11:43:25 AM,7,11:43:33 AM,7
+Main - Built up (before initial test) (MI 1.1),11:44:15 AM,22,11:44:37 AM,6
+Apex - Glue (MI 1.1, 1.2, 1.3, 1.4),11:44:19 AM,25,11:44:45 AM,4
+Dangly Prep - Folding Aluminum Shield,11:44:24 AM,24,11:44:49 AM,6
+Ballast - Red-tag (MI: prep),11:46:04 AM,4,11:46:09 AM,5
+Main - Built up (before initial test) (MI 1.1),11:47:31 AM,8,11:47:39 AM,333
+Envelope - Neck Sealing,11:47:36 AM,10,11:47:46 AM,333
+Apex - Press (PCB) (MI 2.1, 2.2, 2.3),11:56:45 AM,60,11:57:46 AM,2
+Apex - Glue (MI 1.1, 1.2, 1.3, 1.4),11:56:41 AM,60,11:57:52 AM,4
+Envelope - Box prep,11:57:03 AM,54,11:57:58 AM,6
+Envelope - Kapton Donut Cut,11:57:08 AM,54,11:58:03 AM,4
+Dangly Prep - Sensor Mylar Cut,11:57:28 AM,169,12:00:17 PM,5
+Main (Part_Prep) - Form Cutting (MI 2),12:03:19 PM,214,12:08:32 PM,23
+Main (Part_Prep) - Mylar Folding (MI 5),12:03:23 PM,215,12:08:36 PM,4
+Main (Part_Prep) - Battery Prep (MI 4),12:03:27 PM,214,12:08:39 PM,34
+Main (Part_Prep) - Solar Panel Soldering (MI 6),12:03:32 PM,214,12:08:46 PM,6
+Main (Part_Prep) - Mylar Folding (MI 5),12:03:36 PM,216,12:08:51 PM,46
+Main (Part_Prep) - Bag cutting & Sealing (MI 3),12:03:48 PM,210,12:08:56 PM,4
+Main (Part_Prep) - Mylar laser cut,12:09:26 PM,21,12:09:47 PM,5
+Main (Part_Prep) - Wrapping Modem (MI 1),12:09:28 PM,21,12:09:55 PM,4
+Main (Part_Prep) - Form Cutting (MI 2),12:09:31 PM,28,12:10:00 PM,1
+Main (Part_Prep) - Bag cutting & Sealing (MI 3),12:09:34 PM,28,12:10:03 PM,45
+Main (Part_Prep) - Battery Prep (MI 4),12:09:38 PM,34,12:10:13 PM,452
+Main (Part_Prep) - Mylar Folding (MI 5),12:09:41 PM,37,12:10:18 PM,65645
+Ballast - Red-tag (MI: prep),12:10:34 PM,18,12:10:52 PM,34
+Ballast - Sticker Printing (MI: Sticker),12:10:36 PM,19,12:10:56 PM,13
+Ballast - Bag cutting (By machine),12:10:39 PM,22,12:11:01 PM,65
+Ballast - Bag Prep (MI 1),12:10:41 PM,23,12:11:05 PM,667
+Ballast - Actuator (MI 2),12:10:43 PM,26,12:11:09 PM,7654
+Ballast - Bag Assembly (MI 3),12:10:45 PM,28,12:11:14 PM,356
+Ballast - Bag Fill + Mtrack + Sticker (MI: Fill, Seal, Sticker),12:10:49 PM,29,12:11:18 PM,946
+Apex - Glue (MI 1.1, 1.2, 1.3, 1.4),12:11:37 PM,33,12:12:11 PM,34
+Apex - Assembly and Test (MI 4, 5),12:11:39 PM,35,12:12:15 PM,212
+Apex - Press (PCB) (MI 2.1, 2.2, 2.3),12:11:42 PM,36,12:12:19 PM,456
+Apex - Press (PCB) (MI 2.1, 2.2, 2.3),12:11:51 PM,32,12:12:24 PM,69
+Apex - Press (CAP) (MI 3.1),12:12:01 PM,29,12:12:31 PM,234
+Envelope - Box prep,12:12:59 PM,31,12:13:30 PM,342
+Envelope - Box prep,12:13:07 PM,26,12:13:34 PM,43
+Envelope - Neck Cutting,12:13:13 PM,24,12:13:38 PM,23
+Envelope - Neck Sealing,12:13:15 PM,25,12:13:41 PM,64
+Envelope - Cut Sleeve,12:13:19 PM,25,12:13:44 PM,94
+Envelope - Kapton Donut Cut,12:13:22 PM,27,12:13:49 PM,223
+Envelope - Mtrack and Boxing,12:13:25 PM,31,12:13:56 PM,4343
+Sensor - Long Therm Soldering,12:14:12 PM,14,12:14:27 PM,34
+Sensor - Short Therm Soldering to the board,12:14:14 PM,15,12:14:30 PM,23
+Sensor - Long Therm Soldering to the board,12:14:18 PM,14,12:14:32 PM,1234
+Sensor - Long Therm Wire cutting,12:14:21 PM,15,12:14:36 PM,5325
+Sensor - Short Therm Prep,12:14:24 PM,16,12:14:40 PM,6345
+Dangly Prep - Cleaning Aluminum Sheild,12:14:56 PM,18,12:15:14 PM,345
+Dangly Prep - Folding Aluminum Shield,12:14:58 PM,19,12:15:19 PM,443
+Dangly Prep - Sensor Mylar Cut,12:15:00 PM,21,12:15:22 PM,1010
+Dangly Prep - Aluminum shield + Sensor,12:15:02 PM,25,12:15:27 PM,543
+Dangly Prep - Mylar + Unit,12:15:03 PM,29,12:15:35 PM,90934
+Sensor Bag Prep - Bag - heat press (MI 1),12:16:14 PM,16,12:16:30 PM,54
+Sensor Bag Prep - Plast tube winding (MI 2),12:16:16 PM,16,12:16:32 PM,34
+Sensor Bag Prep - Platic tube cutting (MI 2),12:16:18 PM,17,12:16:35 PM,66
+Sensor Bag Prep - Winder and Tie (MI 3),12:16:20 PM,19,12:16:39 PM,76543
+Sensor Bag Prep - Bag Packaging (MI 4),12:16:21 PM,21,12:16:43 PM,02
+Sensor Bag Final Assembly - Dangly + Sensoor bag,12:17:18 PM,25,12:17:44 PM,34
+Final Integration - Final Test (MI: Final test),12:17:53 PM,16,12:18:10 PM,43
+Final Integration - Final Assembly (MI: Main Integration),12:17:56 PM,33,12:18:29 PM,342
+Final Integration - Packaging (MI: Packaging),12:18:02 PM,30,12:18:33 PM,6950
+Main - Initial test (MI 1.2, 1.3),13:25:00,9,13:25:10,10
+Ballast - Red-tag (MI: prep),13:27:23,5,13:27:35,13
+Sensor Bag Prep - Platic tube cutting (MI 2),2:22:50 PM,5,2:22:56 PM,7
+Main - Built up (before initial test) (MI 1.1),11:48:38 AM,7,11:48:46 AM,3
+Main - Initial test (MI 1.2, 1.3),11:48:40 AM,8,11:48:48 AM,4
+Main - Initial test (MI 1.2, 1.3),11:48:43 AM,7,11:48:51 AM,2
