@@ -15,7 +15,7 @@ async function saveToCSV(data) {
     }
 
     const csvHeader = "Task,Start Time,Elapsed Time (seconds),End Time,Quantity\n";
-    const csvRow = `${data.category},${data.startTime},${data.elapsedTime},${data.endTime},${data.quantity}\n`;
+    const csvRow = `${data.category},${data.startTime},${data.elapsedTime},${data.endTime},${data.quantity},${data.username}\n`;
 
     try {
         await fs.access(filePath);

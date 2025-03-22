@@ -41,7 +41,8 @@ function addTask() {
         elapsedTime: 0, 
         interval: null, 
         endTime: null, 
-        quantity: null 
+        quantity: null,
+        username 
     };
 
     task.interval = setInterval(() => updateElapsedTime(taskId), 1000);

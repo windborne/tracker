@@ -5,5 +5,25 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "googleapis": "^146.0.0"
-  }
+  },
+  "name": "tracker-1",
+  "version": "1.0.0",
+  "description": "time tracking",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/windborne/tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/windborne/tracker/issues"
+  },
+  "homepage": "https://github.com/windborne/tracker#readme"
 }
