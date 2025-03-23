@@ -17,6 +17,8 @@ const subCategories = {
 };
 
 
+
+// 서브카테고리 업데이트 함수
 function updateSubCategories() {
     const mainCategory = document.getElementById("mainCategory").value;
     const subCategorySelect = document.getElementById("subCategory");
@@ -29,15 +31,27 @@ function updateSubCategories() {
     });
 }
 
-// page load
-async function loadTasks() {
-    const response = await fetch('/tasks');
-    const data = await response.json();
-    tasks = data;
-    renderTasks();
+// 사용자가 이름을 선택했을 때 버튼 활성화/비활성화 처리
+function handleUsernameChange() {
+    const username = document.getElementById("username").value;
+    const loadTasksButton = document.getElementById("loadTasksButton");
+    if (username) {
+        loadTasksButton.disabled = false;  // 이름이 선택되면 버튼 활성화
+    } else {
+        loadTasksButton.disabled = true;  // 이름이 선택되지 않으면 버튼 비활성화
+    }
 }
 
-// add task
+// 사용자가 선택한 사용자의 작업 목록을 서버에서 읽어오는 함수
+async function loadTasks() {
+    const username = document.getElementById("username").value;
+    const response = await fetch(`/tasks/${username}`);
+    const data = await response.json();
+    tasks = data;  // 서버에서 받은 작업 데이터를 tasks에 저장
+    renderTasks();  // 작업 목록을 화면에 렌더링
+}
+
+// 작업 추가 함수
 async function addTask() {
     const mainCategory = document.getElementById("mainCategory").value;
     const subCategory = document.getElementById("subCategory").value;
@@ -50,17 +64,14 @@ async function addTask() {
         username: username,
         category: `${mainCategory} - ${subCategory}`,
         startTime,
-        elapsedTime: 0,
-        interval: null,
+        elapsedTime: 0,  // 경과 시간은 더 이상 업데이트하지 않음
         endTime: null,
         quantity: null
     };
 
-    task.interval = setInterval(() => updateElapsedTime(taskId), 1000);
-    tasks.unshift(task)
+    tasks.unshift(task);
 
-    // save at server
-    await fetch('/save', {
+    await fetch(`/save/${username}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task)
@@ -69,20 +80,10 @@ async function addTask() {
     renderTasks();
 }
 
-// update task
-function updateElapsedTime(taskId) {
-    const task = tasks.find(t => t.id === taskId);
-    if (task) {
-        task.elapsedTime++;
-        document.getElementById(`elapsedTime-${taskId}`).textContent = `Duration: ${task.elapsedTime}sec`;
-    }
-}
-
-// task done
+// 작업 종료 함수
 function stopTask(taskId) {
     const task = tasks.find(t => t.id === taskId);
     if (task) {
-        clearInterval(task.interval);
         task.endTime = new Date().toLocaleTimeString();
         document.getElementById(`quantityInput-${taskId}`).classList.remove("hidden");
     }
@@ -90,36 +91,32 @@ function stopTask(taskId) {
 
 // 작업 저장 함수
 function saveTask(taskId) {
+
+    
     const task = tasks.find(t => t.id === taskId);
     const quantity = document.getElementById(`quantity-${taskId}`).value;
 
     if (!quantity) {
-        alert("Qty?!");
+        alert("Qty?!");  // 수량 입력이 없으면 경고
         return;
     }
 
     task.quantity = quantity;
 
-    console.log("📡 Sending request to /end-task:", JSON.stringify(task, null, 2));
-
-    // save csv and remove from json
-    fetch('/end-task', {
+    fetch(`/end-task/${task.username}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task)
     })
     .then(response => response.text())
     .then(data => {
-        console.log("✅ Server Response:", data);
-
-        // ui update
-        tasks = tasks.filter(t => t.id !== taskId);  // remove from json
-        renderTasks();
+        tasks = tasks.filter(t => t.id !== taskId);  // 작업 목록에서 제거
+        renderTasks();  // 화면에 업데이트
     })
     .catch(error => console.error("❌ Fetch Error:", error));
 }
 
-// show task list
+// 작업 목록을 화면에 렌더링하는 함수
 function renderTasks() {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
@@ -130,7 +127,6 @@ function renderTasks() {
                 <div>
                     <p>${task.username}: ${task.category}</p>
                     <p>Start: ${task.startTime}</p>
-                    <p id="elapsedTime-${task.id}">Duration: ${task.elapsedTime}sec</p>
                     ${task.endTime ? `<p>End: ${task.endTime}</p>` : ""}
                 </div>
                 ${task.quantity === null ? `
@@ -145,6 +141,7 @@ function renderTasks() {
     });
 }
 
-
-window.onload = loadTasks;
-updateSubCategories();
+window.onload = () => {
+    handleUsernameChange();  // 초기 상태에서 버튼 비활성화
+    updateSubCategories();
+};

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +10,7 @@
 
     <label>Username:
         <select id="username">
+            <option value="">Select a user</option>
             <option value="Omar">Omar</option>
             <option value="John">John</option>
             <option value="Mike">Mike</option>
@@ -24,8 +24,11 @@
         </select>
     </label>
 
+    <button onclick="loadTasks()">Load Tasks</button>
+
     <label>Main:
         <select id="mainCategory" onchange="updateSubCategories()">
+            <option value="">Select Category</option>
             <option value="Main">Main</option>
             <option value="Main (Part_Prep)">Main (Part_Prep)</option>
             <option value="Ballast">Ballast</option>
