@@ -28,28 +28,47 @@ function updateSubCategories() {
     });
 }
 
-function addTask() {
-    const mainCategory = document.getElementById("mainCategory").value;
-    const subCategory = document.getElementById("subCategory").value;
-    const taskId = Date.now();
-    const startTime = new Date().toLocaleTimeString();
-
-    const task = { 
-        id: taskId, 
-        category: `${mainCategory} - ${subCategory}`, 
-        startTime, 
-        elapsedTime: 0, 
-        interval: null, 
-        endTime: null, 
-        quantity: null,
-        username 
-    };
-
-    task.interval = setInterval(() => updateElapsedTime(taskId), 1000);
-    tasks.push(task);
+// 페이지 로드 시 저장된 작업을 불러오는 함수
+async function loadTasks() {
+    const response = await fetch('/tasks');
+    const data = await response.json();
+    tasks = data;
     renderTasks();
 }
 
+// 작업 추가 함수
+async function addTask() {
+    const mainCategory = document.getElementById("mainCategory").value;
+    const subCategory = document.getElementById("subCategory").value;
+    const username = document.getElementById("username").value;
+    const taskId = Date.now();
+    const startTime = new Date().toLocaleTimeString();
+
+    const task = {
+        id: taskId,
+        username: username,
+        category: `${mainCategory} - ${subCategory}`,
+        startTime,
+        elapsedTime: 0,
+        interval: null,
+        endTime: null,
+        quantity: null
+    };
+
+    task.interval = setInterval(() => updateElapsedTime(taskId), 1000);
+    tasks.unshift(task)
+
+    // 서버에 작업 저장
+    await fetch('/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+    });
+
+    renderTasks();
+}
+
+// 작업 시간 업데이트 함수
 function updateElapsedTime(taskId) {
     const task = tasks.find(t => t.id === taskId);
     if (task) {
@@ -58,6 +77,7 @@ function updateElapsedTime(taskId) {
     }
 }
 
+// 작업 종료 함수
 function stopTask(taskId) {
     const task = tasks.find(t => t.id === taskId);
     if (task) {
@@ -67,7 +87,8 @@ function stopTask(taskId) {
     }
 }
 
-function saveTask(taskId) {
+// 작업 저장 함수
+async function saveTask(taskId) {
     const task = tasks.find(t => t.id === taskId);
     const quantity = document.getElementById(`quantity-${taskId}`).value;
 
@@ -77,19 +98,28 @@ function saveTask(taskId) {
     }
 
     task.quantity = quantity;
-    fetch('/save', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task)
-    })
-    .then(response => response.text())
-    .then(data => {
+
+    try {
+        // /end-task 엔드포인트 호출
+        const response = await fetch('/end-task', {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.text();
         console.log("✅ Server Response:", data);
         renderTasks();
-    })
-    .catch(error => console.error("❌ Server save error:", error));
+    } catch (error) {
+        console.error("❌ Server end-task error:", error);
+    }
 }
 
+// 작업 목록 렌더링 함수
 function renderTasks() {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
@@ -98,9 +128,9 @@ function renderTasks() {
         taskList.innerHTML += `
             <div class="task" id="task-${task.id}">
                 <div>
-                    <p>${task.category}</p>
+                    <p>${task.username}: ${task.category}</p>
                     <p>Start: ${task.startTime}</p>
-                    <p id="elapsedTime-${task.id}">Duratin: ${task.elapsedTime}sec</p>
+                    <p id="elapsedTime-${task.id}">Duration: ${task.elapsedTime}sec</p>
                     ${task.endTime ? `<p>End: ${task.endTime}</p>` : ""}
                 </div>
                 ${task.quantity === null ? `
@@ -115,4 +145,6 @@ function renderTasks() {
     });
 }
 
+// 페이지 로드 시 데이터 불러오기
+window.onload = loadTasks;
 updateSubCategories();

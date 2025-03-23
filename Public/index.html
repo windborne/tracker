@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Time Tracker</h1>
+
     <label>Username:
         <select id="username">
             <option value="Omar">Omar</option>
@@ -25,7 +26,6 @@
 
     <label>Main:
         <select id="mainCategory" onchange="updateSubCategories()">
-
             <option value="Main">Main</option>
             <option value="Main (Part_Prep)">Main (Part_Prep)</option>
             <option value="Ballast">Ballast</option>
@@ -34,18 +34,19 @@
             <option value="Sensor">Sensor</option>
             <option value="Dangly Prep">Dangly Prep</option>
             <option value="Sensor Bag Prep">Sensor Bag Prep</option>
-            <option value="Sensor Bag Final Assembly">Sennsor Bag Final Assembly</option>
+            <option value="Sensor Bag Final Assembly">Sensor Bag Final Assembly</option>
             <option value="Final Integration">Final Integration</option>
         </select>
     </label>
+
     <label>SubCategory:
         <select id="subCategory"></select>
     </label>
+
     <button onclick="addTask()">Add task</button>
+
     <div id="taskList"></div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
-
