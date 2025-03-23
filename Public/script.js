@@ -18,7 +18,7 @@ const subCategories = {
 
 
 
-// 서브카테고리 업데이트 함수
+// sub-categories
 function updateSubCategories() {
     const mainCategory = document.getElementById("mainCategory").value;
     const subCategorySelect = document.getElementById("subCategory");
@@ -31,27 +31,27 @@ function updateSubCategories() {
     });
 }
 
-// 사용자가 이름을 선택했을 때 버튼 활성화/비활성화 처리
+// name selection -> button 
 function handleUsernameChange() {
     const username = document.getElementById("username").value;
     const loadTasksButton = document.getElementById("loadTasksButton");
     if (username) {
-        loadTasksButton.disabled = false;  // 이름이 선택되면 버튼 활성화
+        loadTasksButton.disabled = false; 
     } else {
-        loadTasksButton.disabled = true;  // 이름이 선택되지 않으면 버튼 비활성화
+        loadTasksButton.disabled = true;  
     }
 }
 
-// 사용자가 선택한 사용자의 작업 목록을 서버에서 읽어오는 함수
+// read task from the server
 async function loadTasks() {
     const username = document.getElementById("username").value;
     const response = await fetch(`/tasks/${username}`);
     const data = await response.json();
-    tasks = data;  // 서버에서 받은 작업 데이터를 tasks에 저장
-    renderTasks();  // 작업 목록을 화면에 렌더링
+    tasks = data;  
+    renderTasks();  // rander task
 }
 
-// 작업 추가 함수
+// add task
 async function addTask() {
     const mainCategory = document.getElementById("mainCategory").value;
     const subCategory = document.getElementById("subCategory").value;
@@ -64,7 +64,7 @@ async function addTask() {
         username: username,
         category: `${mainCategory} - ${subCategory}`,
         startTime,
-        elapsedTime: 0,  // 경과 시간은 더 이상 업데이트하지 않음
+        elapsedTime: 0,  
         endTime: null,
         quantity: null
     };
@@ -80,7 +80,6 @@ async function addTask() {
     renderTasks();
 }
 
-// 작업 종료 함수
 function stopTask(taskId) {
     const task = tasks.find(t => t.id === taskId);
     if (task) {
@@ -89,7 +88,6 @@ function stopTask(taskId) {
     }
 }
 
-// 작업 저장 함수
 function saveTask(taskId) {
 
     
@@ -97,7 +95,7 @@ function saveTask(taskId) {
     const quantity = document.getElementById(`quantity-${taskId}`).value;
 
     if (!quantity) {
-        alert("Qty?!");  // 수량 입력이 없으면 경고
+        alert("Qty?!");  
         return;
     }
 
@@ -110,13 +108,13 @@ function saveTask(taskId) {
     })
     .then(response => response.text())
     .then(data => {
-        tasks = tasks.filter(t => t.id !== taskId);  // 작업 목록에서 제거
-        renderTasks();  // 화면에 업데이트
+        tasks = tasks.filter(t => t.id !== taskId);  
+        renderTasks();  
     })
     .catch(error => console.error("❌ Fetch Error:", error));
 }
 
-// 작업 목록을 화면에 렌더링하는 함수
+
 function renderTasks() {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
@@ -142,6 +140,6 @@ function renderTasks() {
 }
 
 window.onload = () => {
-    handleUsernameChange();  // 초기 상태에서 버튼 비활성화
+    handleUsernameChange(); 
     updateSubCategories();
 };
