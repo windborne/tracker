@@ -39,6 +39,7 @@ function handleUsernameChange() {
         loadTasksButton.disabled = false; 
     } else {
         loadTasksButton.disabled = true;  
+    }
 }
 
 // read task for selected user
