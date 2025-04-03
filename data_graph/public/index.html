@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>visualization of data</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>📊 graph </h1>
+
+    <!-- nono -->
+    <div class="chart-container">
+        <canvas id="categoryChart"></canvas>
+        <canvas id="timePerUnitChart"></canvas>
+        <canvas id="userChart"></canvas>
+        <canvas id="timelineChart"></canvas>
+        <canvas id="scatterChart"></canvas>
+    </div>
+
+    <!-- new data -->
+    <div id="unit-charts" class="unit-chart-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

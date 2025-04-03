@@ -1,0 +1,19 @@
+{
+  "name": "data_graph",
+  "version": "1.0.0",
+  "main": "proccess_data.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "csv-parser": "^3.2.0",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}
