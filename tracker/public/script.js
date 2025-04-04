@@ -11,9 +11,9 @@ const subCategories = {
     //sensor
     "Sensor": ["Long Therm Soldering","Short Therm Soldering to the board","Long Therm Soldering to the board","Long Therm Wire cutting","Short Therm Prep","Humical unloading","Epoxy","Loading","Watergate","Precal/masking/Plating","Cable prep","Dipping Conformal boards"],
     "Dangly Prep": ["Cleaning Aluminum Sheild","Folding Aluminum Shield","Sensor Mylar Cut","Aluminum shield + Sensor","Mylar + Unit"],
-    "Sensor Bag Prep": ["Bag - heat press (MI 1)","Plast tube winding (MI 2)","Platic tube cutting (MI 2)","Winder and Tie (MI 3)","Bag Packaging (MI 4)"],
-    "Sensor Bag Final Assembly": ["Dangly + Sensoor bag"],
-    "Final Integration": ["Final Test (MI: Final test)","Final Assembly (MI: Main Integration)","Packaging (MI: Packaging)"]
+    "Sensor Bag Prep": ["Bag - heat press (MI 1)","Plast tube winding (MI 2)","Platic tube cutting (MI 2)","Winder and Tie (MI 3)","Bag Packaging (MI 4)","Cable prep","re-work"],
+    "Sensor Bag Final Assembly": ["Dangly + Sensoor bag","re-work"],
+    "Final Integration": ["Final Test (MI: Final test)","Final Assembly (MI: Main Integration)","Packaging (MI: Packaging)","re-work"]
 };
 
 // update sub
