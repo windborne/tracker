@@ -9,7 +9,7 @@ const subCategories = {
     "Apex": ["Glue (MI 1.1, 1.2, 1.3, 1.4)","Assembly and Test (MI 4, 5)","Press (PCB) (MI 2.1, 2.2, 2.3)","Press (CAP) (MI 3.1)"],
     "Envelope": ["Box prep","Neck Cutting","Neck Sealing","Cut Sleeve","Kapton Donut Cut","Mtrack and Boxing","Envelope manufacturing"],
     //sensor
-    "Sensor": ["Long Therm Soldering","Short Therm Soldering to the board","Long Therm Soldering to the board","Long Therm Wire cutting","Short Therm Prep","Humical unloading","Epoxy","Loading","Watergate","Precal/masking/Plating","Cable prep","Dipping Conformal boards"],
+    "Sensor": ["Long Therm Soldering","Short Therm Soldering to the board","Long Therm Soldering to the board","Long Therm Wire cutting","Short Therm Prep","Humical unloading","Epoxy","Loading","Watergate","Precal/masking/Plating","Cable prep","Dipping Conformal boards","Cleaning sensor","Cleaning plates"],
     "Dangly Prep": ["Cleaning Aluminum Sheild","Folding Aluminum Shield","Sensor Mylar Cut","Aluminum shield + Sensor","Mylar + Unit"],
     "Sensor Bag Prep": ["Bag - heat press (MI 1)","Plast tube winding (MI 2)","Platic tube cutting (MI 2)","Winder and Tie (MI 3)","Bag Packaging (MI 4)","Cable prep","re-work"],
     "Sensor Bag Final Assembly": ["Dangly + Sensoor bag","re-work"],
