@@ -2,3 +2,18 @@ body { font-family: Arial, sans-serif; padding: 20px; }
 .task { display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0; }
 .hidden { display: none; }
 .quantityInput { display: flex; align-items: center; gap: 10px; }
+
+.input-qty {
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 120px;
+    padding: 5px;
+}
+
+.input-note {
+    font-size: 0.9em;
+    width: 220px;
+    padding: 4px;
+    margin-left: 10px;
+    color: #555;
+}

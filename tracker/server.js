@@ -56,7 +56,7 @@ async function saveToCsvFile(data) {
     try {
         const writeStream = fs.createWriteStream(csvFilePath, { flags: 'a' });
         const fileStats = await fs.promises.stat(csvFilePath).catch(() => null);
-
+        
         
         const csvStream = fastcsv.format({
             headers: !fileStats || fileStats.size === 0,  
@@ -74,7 +74,8 @@ async function saveToCsvFile(data) {
             data.startTime,
             data.elapsedTime,
             data.endTime || '',
-            data.quantity || ''
+            data.quantity || '',
+            data.note || '' 
         ];
 
         csvStream.write(taskData);  

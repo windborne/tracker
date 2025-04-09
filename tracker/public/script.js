@@ -5,7 +5,7 @@ const subCategories = {
     "Main": ["Built up (before initial test) (MI 1.1)", "Initial test (MI 1.2, 1.3)", "Sat-Com (MI 2.1, 2.2)", "Batt + Form + Plastic Bag (MI 3.1, 3.2)","Mylar install + Solar (MI 3.3, 3.4)"],
     "Main (Part_Prep)": ["Mylar laser cut", "Wrapping Modem (MI 1)", "Form Cutting (MI 2)", "Bag cutting & Sealing (MI 3)", "Battery Prep (MI 4)","Mylar Folding (MI 5)","Solar Panel Soldering (MI 6)" ],
     //ballast, apex, env
-    "Ballast": ["Red-tag (MI: prep)", "Sticker Printing (MI: Sticker)", "Bag cutting (By machine)", "Bag Prep (MI 1)", "Actuator (MI 2)", "Bag Assembly (MI 3)", "Bag Fill + Mtrack + Sticker (MI: Fill, Seal, Sticker)"],
+    "Ballast": ["Red-tag (MI: prep)", "Sticker Printing (MI: Sticker)", "Bag cutting (By machine)", "Bag-prep(Marking) (MI 1)", "Bag-prep(sealing)",  "Actuator (MI 2)", "Bag Assembly (MI 3)", "Bag Fill + Mtrack + Sticker (MI: Fill, Seal, Sticker)"],
     "Apex": ["Glue (MI 1.1, 1.2, 1.3, 1.4)","Assembly and Test (MI 4, 5)","Press (PCB) (MI 2.1, 2.2, 2.3)","Press (CAP) (MI 3.1)"],
     "Envelope": ["Box prep","Neck Cutting","Neck Sealing","Cut Sleeve","Kapton Donut Cut","Mtrack and Boxing","Envelope manufacturing"],
     //sensor
@@ -94,12 +94,19 @@ function stopTask(taskId) {
     }
 }
 
+function checkInputState() {
+    const username = document.getElementById("username").value;
+    const mainCategory = document.getElementById("mainCategory").value;
+    const subCategory = document.getElementById("subCategory").value;
+    const addTaskButton = document.getElementById("addTaskButton");
+
+    addTaskButton.disabled = !(username && mainCategory && subCategory);
+}
 
 function saveTask(taskId) {
-
-    
     const task = tasks.find(t => t.id === taskId);
     const quantity = document.getElementById(`quantity-${taskId}`).value;
+    const note = document.getElementById(`note-${taskId}`).value;
 
     if (!quantity) {
         alert("Qty?!");  
@@ -107,6 +114,7 @@ function saveTask(taskId) {
     }
 
     task.quantity = quantity;
+    task.note = note;
 
     fetch(`/end-task/${task.username}`, {
         method: "POST",
@@ -121,6 +129,7 @@ function saveTask(taskId) {
     .catch(error => console.error("❌ Fetch Error:", error));
 }
 
+
 function renderTasks() {
     const taskList = document.getElementById("taskList");
     taskList.innerHTML = "";
@@ -129,37 +138,22 @@ function renderTasks() {
         taskList.innerHTML += `
             <div class="task" id="task-${task.id}">
                 <div>
-                    <p>${task.username}: ${task.mainCategory} - ${task.subCategory} </p>
+                    <p>${task.username}: ${task.mainCategory} - ${task.subCategory}</p>
                     <p>Start: ${task.startTime}</p>
                     ${task.endTime ? `<p>End: ${task.endTime}</p>` : ""}
                 </div>
                 ${task.quantity === null ? `
                     <button onclick="stopTask(${task.id})">End</button>
                     <div id="quantityInput-${task.id}" class="hidden">
-                        <input type="number" id="quantity-${task.id}" placeholder="Qty">
+                        <input type="number" id="quantity-${task.id}" class="input-qty" placeholder="Qty">
+                        <input type="text" id="note-${task.id}" class="input-note" placeholder="Note (optional)">
                         <button onclick="saveTask(${task.id})">Save</button>
                     </div>
-                ` : `<p>Qty: ${task.quantity}</p>`}
+                ` : `
+                    <p><strong>Qty:</strong> ${task.quantity}</p>
+                    ${task.note ? `<p><strong>Note:</strong> ${task.note}</p>` : ""}
+                `}
             </div>
         `;
     });
 }
-
-function checkInputState() {
-    const username = document.getElementById("username").value;
-    const mainCategory = document.getElementById("mainCategory").value;
-    const subCategory = document.getElementById("subCategory").value;
-    const addTaskButton = document.getElementById("addTaskButton");
-
-    if (username && mainCategory && subCategory) {
-        addTaskButton.disabled = false;
-    } else {
-        addTaskButton.disabled = true;
-    }
-}
-
-window.onload = () => {
-    handleUsernameChange();  
-    updateSubCategories();
-    checkInputState();
-};
