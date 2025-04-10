@@ -16,36 +16,31 @@ const subCategories = {
 function updateSubCategories() {
     const mainCategory = document.getElementById("mainCategory").value;
     const subCategorySelect = document.getElementById("subCategory");
-    subCategorySelect.innerHTML = "<option value=''>Select Category</option>";
-    if (mainCategory && subCategories[mainCategory]) {
-        subCategories[mainCategory].forEach(sub => {
-            const option = document.createElement("option");
-            option.value = sub;
-            option.textContent = sub;
-            subCategorySelect.appendChild(option);
-        });
-    }
+    subCategorySelect.innerHTML = "";
+    subCategories[mainCategory].forEach(sub => {
+        const option = document.createElement("option");
+        option.value = sub;
+        option.textContent = sub;
+        subCategorySelect.appendChild(option);
+    });
 }
 
 function handleUsernameChange() {
     const username = document.getElementById("username").value;
     const loadTasksButton = document.getElementById("loadTasksButton");
-    loadTasksButton.disabled = !username;
+    if (username) {
+        loadTasksButton.disabled = false;
+    } else {
+        loadTasksButton.disabled = true;
+    }
 }
 
 async function loadTasks() {
     const username = document.getElementById("username").value;
-    if (!username) return;
-
-    try {
-        const response = await fetch(`/tasks/${username}`);
-        if (!response.ok) throw new Error('Failed to load tasks');
-        const data = await response.json();
-        tasks = data;
-        renderTasks();
-    } catch (error) {
-        console.error("❌ Load Tasks Error:", error);
-    }
+    const response = await fetch(`/tasks/${username}`);
+    const data = await response.json();
+    tasks = data;
+    renderTasks();
 }
 
 async function addTask() {
@@ -76,27 +71,13 @@ async function addTask() {
 
     tasks.unshift(task);
 
-    try {
-        const response = await fetch(`/save/${username}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(task)
-        });
-        if (!response.ok) throw new Error('Failed to save task');
-        renderTasks();
-    } catch (error) {
-        console.error("❌ Add Task Error:", error);
-        alert("Failed to add task!");
-    }
-}
+    await fetch(`/save/${username}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+    });
 
-function stopTask(taskId) {
-    const task = tasks.find(t => t.id === taskId);
-    if (task) {
-        task.endTime = new Date().toLocaleString();
-        document.getElementById(`quantityInput-${taskId}`).classList.remove("hidden");
-    }
-    renderTasks(); // UI 즉시 업데이트
+    renderTasks();
 }
 
 function checkInputState() {
@@ -106,6 +87,14 @@ function checkInputState() {
     const addTaskButton = document.getElementById("addTaskButton");
 
     addTaskButton.disabled = !(username && mainCategory && subCategory);
+}
+
+function stopTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+        task.endTime = new Date().toLocaleString();
+        renderTasks();
+    }
 }
 
 async function saveTask(taskId) {
@@ -119,7 +108,7 @@ async function saveTask(taskId) {
     }
 
     task.quantity = quantity;
-    task.note = note;
+    task.note = note || null;
     task.status = 'completed';
 
     try {
@@ -129,6 +118,10 @@ async function saveTask(taskId) {
             body: JSON.stringify(task)
         });
         if (!response.ok) throw new Error('Failed to save completed task');
+
+        const loadResponse = await fetch(`/tasks/${task.username}`);
+        if (!loadResponse.ok) throw new Error('Failed to load tasks');
+        tasks = await loadResponse.json();
         renderTasks();
     } catch (error) {
         console.error("❌ Save Task Error:", error);
@@ -136,9 +129,47 @@ async function saveTask(taskId) {
     }
 }
 
+async function deleteTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    try {
+        const response = await fetch(`/delete-task/${task.username}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: taskId })
+        });
+        if (!response.ok) throw new Error('Failed to delete task');
+
+        const loadResponse = await fetch(`/tasks/${task.username}`);
+        if (!loadResponse.ok) throw new Error('Failed to load tasks');
+        tasks = await loadResponse.json();
+        renderTasks();
+    } catch (error) {
+        console.error("❌ Delete Task Error:", error);
+        alert("Failed to delete task!");
+    }
+}
+
+function cancelTask(taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+        task.endTime = null; // endTime 초기화
+        renderTasks();
+    }
+}
+
 function editTask(taskId) {
     const task = tasks.find(t => t.id === taskId);
+    if (!task) {
+        console.error(`Task with ID ${taskId} not found`);
+        return;
+    }
     const taskElement = document.getElementById(`task-${taskId}`);
+    if (!taskElement) {
+        console.error(`Task element with ID task-${taskId} not found`);
+        return;
+    }
     taskElement.innerHTML = `
         <div>
             <p>${task.username}: ${task.mainCategory} - ${task.subCategory}</p>
@@ -146,25 +177,25 @@ function editTask(taskId) {
             <p>End: ${task.endTime}</p>
         </div>
         <div>
-            <input type="number" id="edit-quantity-${taskId}" class="input-qty" value="${task.quantity}">
-            <input type="text" id="edit-note-${taskId}" class="input-note" value="${task.note || ''}">
-            <button onclick="saveEditedTask(${task.id})">Save</button>
+            <input type="number" id="edit-quantity-${taskId}" class="input-qty" value="${task.quantity || ''}" placeholder="Qty">
+            <input type="text" id="edit-note-${taskId}" class="input-note" value="${task.note || ''}" placeholder="Note (optional)">
+            <button class="save-btn" onclick="saveEditedTask(${task.id})">💾 Save</button>
         </div>
     `;
 }
 
 async function saveEditedTask(taskId) {
     const task = tasks.find(t => t.id === taskId);
-    const newQuantity = document.getElementById(`edit-quantity-${taskId}`).value;
+    const newQty = document.getElementById(`edit-quantity-${taskId}`).value;
     const newNote = document.getElementById(`edit-note-${taskId}`).value;
 
-    if (!newQuantity) {
-        alert("Qty?!");
+    if (!newQty) {
+        alert("Qty required!");
         return;
     }
 
-    task.quantity = newQuantity;
-    task.note = newNote;
+    task.quantity = newQty;
+    task.note = newNote || null;
 
     try {
         const response = await fetch(`/edit-task/${task.username}`, {
@@ -173,37 +204,57 @@ async function saveEditedTask(taskId) {
             body: JSON.stringify(task)
         });
         if (!response.ok) throw new Error('Failed to edit task');
+
+        const loadResponse = await fetch(`/tasks/${task.username}`);
+        if (!loadResponse.ok) throw new Error('Failed to load tasks');
+        tasks = await loadResponse.json();
         renderTasks();
     } catch (error) {
-        console.error("❌ Edit Task Error:", error);
+        console.error("❌ Error saving edit:", error);
         alert("Failed to edit task!");
     }
 }
 
 function renderTasks() {
-    const taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
+    const pendingTasksDiv = document.getElementById("pendingTasks");
+    const completedTasksDiv = document.getElementById("completedTasks");
+    pendingTasksDiv.innerHTML = "";
+    completedTasksDiv.innerHTML = "";
 
-    tasks.forEach(task => {
-        taskList.innerHTML += `
-            <div class="task" id="task-${task.id}">
+    const pendingTasks = tasks.filter(task => (task.status || 'pending') !== 'completed');
+    const completedTasks = tasks.filter(task => (task.status || 'pending') === 'completed');
+
+    pendingTasks.forEach(task => {
+        pendingTasksDiv.innerHTML += `
+            <div class="task pending" id="task-${task.id}">
                 <div>
                     <p>${task.username}: ${task.mainCategory} - ${task.subCategory}</p>
                     <p>Start: ${task.startTime}</p>
                     ${task.endTime ? `<p>End: ${task.endTime}</p>` : ""}
+                    ${!task.endTime ? `<button class="delete-btn" onclick="deleteTask(${task.id})">✖️ Delete</button>` : ""}
                 </div>
-                ${task.status === 'completed' ? `
-                    <p><strong>Qty:</strong> ${task.quantity}</p>
-                    ${task.note ? `<p><strong>Note:</strong> ${task.note}</p>` : ""}
-                    <button onclick="editTask(${task.id})">Edit</button>
-                ` : `
-                    <button onclick="stopTask(${task.id})">End</button>
-                    <div id="quantityInput-${task.id}" class="${task.endTime ? '' : 'hidden'}">
-                        <input type="number" id="quantity-${task.id}" class="input-qty" placeholder="Qty" value="${task.quantity || ''}">
-                        <input type="text" id="note-${task.id}" class="input-note" placeholder="Note (optional)" value="${task.note || ''}">
-                        <button onclick="saveTask(${task.id})">Save</button>
-                    </div>
-                `}
+                ${!task.endTime ? `<button class="end-btn" onclick="stopTask(${task.id})">✅ End</button>` : ""}
+                <div id="quantityInput-${task.id}" class="${task.endTime ? '' : 'hidden'}">
+                    <input type="number" id="quantity-${task.id}" class="input-qty" placeholder="Qty" value="${task.quantity || ''}">
+                    <input type="text" id="note-${task.id}" class="input-note" placeholder="Note (optional)" value="${task.note || ''}">
+                    <button class="save-btn" onclick="saveTask(${task.id})">💾 Save</button>
+                    <button class="cancel-btn" onclick="cancelTask(${task.id})">↩️ Cancel</button>
+                </div>
+            </div>
+        `;
+    });
+
+    completedTasks.sort((a, b) => new Date(b.endTime) - new Date(a.endTime)).forEach(task => {
+        completedTasksDiv.innerHTML += `
+            <div class="task completed" id="task-${task.id}">
+                <div>
+                    <p>${task.username}: ${task.mainCategory} - ${task.subCategory}</p>
+                    <p>Start: ${task.startTime}</p>
+                    <p>End: ${task.endTime}</p>
+                </div>
+                <p><strong>Qty:</strong> ${task.quantity}</p>
+                ${task.note ? `<p><strong>Note:</strong> ${task.note}</p>` : ""}
+                <button onclick="editTask(${task.id})">Edit</button>
             </div>
         `;
     });
