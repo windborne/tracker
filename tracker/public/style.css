@@ -1,7 +1,66 @@
 body { font-family: Arial, sans-serif; padding: 20px; }
-.task { display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ddd; margin: 5px 0; }
-.hidden { display: none; }
-.quantityInput { display: flex; align-items: center; gap: 10px; }
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin: 5px 0;
+}
+
+.pending {
+    background-color: #e6ffe6;
+    border-left: 5px solid #00cc00;
+}
+
+.completed {
+    background-color: #f0f0f0;
+    border-left: 5px solid #666;
+}
+
+.end-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 6px 12px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.save-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.cancel-btn {
+    background-color: #6c757d; /* 회색으로 취소 느낌 */
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.hidden {
+    display: none;
+}
 
 .input-qty {
     font-size: 1.5em;
