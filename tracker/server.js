@@ -65,16 +65,20 @@ async function saveToCsvFile(data) {
             data.note || ''
         ]);
         csvStream.end();
+        writeStream.write('\n'); // 명시적 줄바꿈 추가
 
         return new Promise((resolve, reject) => {
             writeStream.on('finish', () => {
-                console.log("✅ CSV save success.");
+                console.log(`✅ CSV appended: task ${data.id}`);
                 resolve();
             });
-            writeStream.on('error', reject);
+            writeStream.on('error', (error) => {
+                console.error("❌ CSV write error:", error.message);
+                reject(error);
+            });
         });
     } catch (error) {
-        console.error("❌ CSV error (save):", error.message);
+        console.error("❌ CSV save error:", error.message);
         throw error;
     }
 }
